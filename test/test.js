@@ -1,12 +1,11 @@
-var sl          = require('../lib')
-  , EventQueue  = sl.EventQueue
-  , Polygon     = sl.Polygon
-  , Point       = sl.Point
-  , RedBlackTree = sl.RedBlackTree
-  , EventQueue = sl.EventQueue
-  , SweepLine = sl.SweepLine
-  , assert      = require('chai').assert
-  , _           = require('underscore');
+var sl          = require('../lib'),
+  EventQueue  = sl.EventQueue,
+  Polygon     = sl.Polygon,
+  Point       = sl.Point,
+  RedBlackTree = sl.RedBlackTree,
+  EventQueue = sl.EventQueue,
+  SweepLine = sl.SweepLine,
+  assert      = require('chai').assert;
 var TestNumber = function(number){
   this.value = number  
 };
@@ -20,7 +19,7 @@ describe('sweepline', function(){
   describe('event queue', function(){
     it('test can create an EventQueue',function(){
       var geojson = [[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]];
-      var points  = _.map(geojson, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geojson.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       var event_queue = new EventQueue(polygon)
       
@@ -73,7 +72,7 @@ describe('sweepline', function(){
   describe('polygon', function(){
     it('test can build a polygon from an array of points', function(){
       geom = [[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]];
-      points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       polygon = new Polygon(points);
       
       assert.equal(polygon.vertices.length, geom.length);
@@ -84,7 +83,7 @@ describe('sweepline', function(){
       
       // note hack on last co-ordinate.
       var geom = [[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.000001, 0.000001]];
-      var points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       
       assert.ok(polygon.simple_polygon(), "polygon is simple")
@@ -92,7 +91,7 @@ describe('sweepline', function(){
 
     it('test is polygon simple 2', function(){
       var geom = [[2.0, 2.0], [1.0, 2.0], [1.0, 1.0], [2.0, 1.0], [3.0, 1.0], [3.0, 2.0], [2.000001, 2.000001]];
-      var points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       
       assert.ok(polygon.simple_polygon(), "polygon is simple")
@@ -100,7 +99,7 @@ describe('sweepline', function(){
 
     it('test is polygon simple 3', function(){
       var geom = [[0, 0], [0, 1], [1, 1], [0, 1], [0.0001, 0.00001]];
-      var points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       
       assert.ok(polygon.simple_polygon(), "polygon is simple")
@@ -108,7 +107,7 @@ describe('sweepline', function(){
 
     it('test is polygon simple 4', function(){
       var geom = [[2.0, 2.0], [2.0, 3.0], [3.0, 3.0], [4.0, 3.0], [4.0, 2.0], [2.000001, 2.00001]];
-      var points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       
       assert.ok(polygon.simple_polygon(), "polygon is complex")
@@ -117,7 +116,7 @@ describe('sweepline', function(){
 
     it('test is polygon complex 1', function(){
       var geom = [[2.0, 2.0], [2.0, 3.0], [3.0, 1.0], [4.0, 3.0], [4.0, 2.0], [2.00001, 2.00001]];
-      var points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       
       assert.ok(!polygon.simple_polygon(), "polygon is complex")
@@ -126,7 +125,7 @@ describe('sweepline', function(){
 
     it('test is polygon complex 2', function(){
       var geom = [[2.0, 2.0], [3.0, 2.0], [3.0, 3.0], [2.0, 3.0], [4.0, 2.0], [2.0000001, 2.000001]];
-      var points  = _.map(geom, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       
       assert.ok(!polygon.simple_polygon(), "polygon is complex")
@@ -248,7 +247,7 @@ describe('sweepline', function(){
   describe('sweepline', function(){
     it('test can find', function(){
       var geojson = [[100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0]];
-      var points  = _.map(geojson, function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var points  = geojson.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
       var polygon = new Polygon(points);
       var sweep_line = new SweepLine(polygon);
       var event_queue = new EventQueue(polygon);
