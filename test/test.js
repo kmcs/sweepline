@@ -130,6 +130,17 @@ describe('sweepline', function(){
       
       assert.ok(!polygon.simple_polygon(), "polygon is complex")
     });
+
+    it('test has polygon self intersection lines', function(){
+      var geom = [[2.0, 2.0], [3.0, 2.0], [3.0, 3.0], [2.0, 3.0], [4.0, 2.0], [2.0000001, 2.000001]];
+      var points  = geom.map(function(pnt){ return new Point(pnt[0],pnt[1]); });
+      var polygon = new Polygon(points);
+      polygon.simple_polygon();
+      var lines = polygon.get_self_intersection_lines();
+
+      assert.equal(lines[0].left_point.compare(new Point(3.0, 2.0)) | lines[0].right_point.compare(new Point(3.0, 3.0)), 0, 'complex polygon self-intersection line 1 is false.');
+      assert.equal(lines[1].left_point.compare(new Point(2.0000001, 2.000001)) | lines[1].right_point.compare(new Point(4.0, 2.0)), 0, 'complex polygon self-intersection line 1 is false.');
+    });
   });
   describe('red black tree', function(){
     it('test add single', function(){
